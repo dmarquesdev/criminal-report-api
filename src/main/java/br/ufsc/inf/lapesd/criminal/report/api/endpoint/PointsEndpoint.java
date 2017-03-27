@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.gson.Gson;
 
 import br.ufsc.inf.lapesd.criminal.report.api.model.CriminalReport;
+import br.ufsc.inf.lapesd.criminal.report.api.model.Person;
 import br.ufsc.inf.lapesd.criminal.report.api.service.ReportService;
 
 @Path("points")
@@ -45,11 +46,10 @@ public class PointsEndpoint {
     	
         try {
         	
-//        	if(url.contains("points?"))
-//        		loadReport = reportService.loadAllReportsFilteringURL(url);
-//        	else 
-//        		loadReport = reportService.loadAllReports();
-                loadReport = reportService.loadAllPoints();
+        	if(url.contains("points?"))
+        		loadReport = reportService.loadAllPointsFilteringURL(url);
+        	else 
+        		loadReport = reportService.loadAllPoints();
                 
             return Response.ok(new Gson().toJson(loadReport)).build();
         } catch (FileNotFoundException e) {

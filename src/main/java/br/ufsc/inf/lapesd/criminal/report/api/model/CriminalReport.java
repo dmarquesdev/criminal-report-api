@@ -41,20 +41,27 @@ public class CriminalReport {
     protected String anoBoPrincipal;
     protected String nomeDelegaciaBoPrincipal;
     protected String categoria;
-    
+
     protected String location;
-    
 
+    public CriminalReport(String idBO, String lat, String lon) {
+        this.idBO = idBO;
+        this.lat = lat;
+        this.lon = lon;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public CriminalReport() {
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public void setId(String id) {
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -66,83 +73,83 @@ public class CriminalReport {
         return context;
     }
 
-    	
     public void applySemantics() {
-    	
-    	//Ontologies
-    	this.context.put("ssp", "http://exemple.com.br/ssp-ontology/");
+
+        //Ontologies
+        this.context.put("ssp", "http://exemple.com.br/ssp-ontology/");
         this.context.put("dbo", "http://dbpedia.org/ontology/");
         this.context.put("schema", "https://schema.org/");
         this.context.put("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-        
+
         //Criminal Report
         this.context.put("idBO", "ssp:reportID");
-        this.context.put("numero",                  "ssp:reportNumber");
-        this.context.put("idDelegacia",             "ssp:policeStationID");
-        this.context.put("tipoBoletim",             "ssp:reportType");
-        this.context.put("dependencia",             "ssp:dependency");
-        this.context.put("local",                   "dbo:address");
-        this.context.put("tipoLocal",               "ssp:addressType");
-        this.context.put("circunscricao",           "ssp:circumscription");
-        this.context.put("dataOcorrencia",          "ssp:occurenceDate");
-        this.context.put("turnoOcorrencia",         "ssp:occurenceShift");
-        this.context.put("dataComunicacao",         "ssp:caommunicationDate");
-        this.context.put("horaComunicacao",         "ssp:communicationTime");
-        this.context.put("dataElaboracao",          "ssp:fulfillmentDate");
-        this.context.put("horaElaboracao",          "ssp:fulfillmentTime");
-        this.context.put("flagrante",               "ssp:flagrant");
-        this.context.put("examesRequisitados",      "ssp:orderedTests");
-        this.context.put("solucao",                 "ssp:solutino");
-        this.context.put("numeroBoPrincipal",       "ssp:mainReportNumber");
-        this.context.put("anoBoPrincipal",          "ssp:mainReportYear");
-        this.context.put("nomeDelegaciaBoPrincipal","ssp:mainReportPoliceStation");
-        this.context.put("categoria",               "ssp:criminalReportCategory");
-        this.context.put("location",                "schema:location");
-        
+        this.context.put("numero", "ssp:reportNumber");
+        this.context.put("idDelegacia", "ssp:policeStationID");
+        this.context.put("tipoBoletim", "ssp:reportType");
+        this.context.put("dependencia", "ssp:dependency");
+        this.context.put("local", "dbo:address");
+        this.context.put("tipoLocal", "ssp:addressType");
+        this.context.put("circunscricao", "ssp:circumscription");
+        this.context.put("dataOcorrencia", "ssp:occurenceDate");
+        this.context.put("turnoOcorrencia", "ssp:occurenceShift");
+        this.context.put("dataComunicacao", "ssp:caommunicationDate");
+        this.context.put("horaComunicacao", "ssp:communicationTime");
+        this.context.put("dataElaboracao", "ssp:fulfillmentDate");
+        this.context.put("horaElaboracao", "ssp:fulfillmentTime");
+        this.context.put("flagrante", "ssp:flagrant");
+        this.context.put("examesRequisitados", "ssp:orderedTests");
+        this.context.put("solucao", "ssp:solutino");
+        this.context.put("numeroBoPrincipal", "ssp:mainReportNumber");
+        this.context.put("anoBoPrincipal", "ssp:mainReportYear");
+        this.context.put("nomeDelegaciaBoPrincipal", "ssp:mainReportPoliceStation");
+        this.context.put("categoria", "ssp:criminalReportCategory");
+        this.context.put("location", "schema:location");
+
         //Person
         this.context.put("partesEnvolvidas", "dbo:victims");
-        this.context.put("rg",               "dbo:idNumber");
-        this.context.put("nome",             "foaf:name");
+        this.context.put("rg", "dbo:idNumber");
+        this.context.put("nome", "foaf:name");
         this.context.put("tipoEnvolvimento", "ssp:involvementType");
-        this.context.put("naturalidade",     "dbo:birthPlace");
-        this.context.put("nacionalidade",    "dbo:nationality");
-        this.context.put("sexo",             "foaf:gender");
-        this.context.put("dataNascimento",   "dbo:birthYear");
-        this.context.put("idade",            "foaf:age");
-        this.context.put("estadoCivil",      "ssp:maritalStatus");
-        this.context.put("instrucao",        "dbo:education");
-        this.context.put("profissao",        "dbo:occupation");
-        this.context.put("cutis",            "dbo:skinColor");
-            
-        for (Person persons: this.partesEnvolvidas) {
-			persons.applySemantics();
-		}
-        
-        //Nature of Crime
-        this.context.put("naturezas",      "ssp:natureOfCrime");
-        this.context.put("descricao",      "ssp:description");
-        this.context.put("especie",        "ssp:type");
-        
-        try {
-        	if(getLocal() != null)
-        		setLocation("http://maps.google.com/maps/api/geocode/json?address=" 
-        					+ java.net.URLEncoder.encode(getLocal(), "UTF-8"));
+        this.context.put("naturalidade", "dbo:birthPlace");
+        this.context.put("nacionalidade", "dbo:nationality");
+        this.context.put("sexo", "foaf:gender");
+        this.context.put("dataNascimento", "dbo:birthYear");
+        this.context.put("idade", "foaf:age");
+        this.context.put("estadoCivil", "ssp:maritalStatus");
+        this.context.put("instrucao", "dbo:education");
+        this.context.put("profissao", "dbo:occupation");
+        this.context.put("cutis", "dbo:skinColor");
+
+        for (Person persons : this.partesEnvolvidas) {
+            persons.applySemantics();
         }
-        catch (UnsupportedEncodingException e) {
+
+        //Nature of Crime
+        this.context.put("naturezas", "ssp:natureOfCrime");
+        this.context.put("descricao", "ssp:description");
+        this.context.put("especie", "ssp:type");
+
+        try {
+            if (getLocal() != null) {
+                setLocation("http://maps.google.com/maps/api/geocode/json?address="
+                        + java.net.URLEncoder.encode(getLocal(), "UTF-8"));
+            }
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("Error");
         }
 
     }
-    
+
     public String getAno() {
-    	String year = "";
-    	if(this.dataOcorrencia != null) {
-    		if(dataOcorrencia.length() == 4)
-    			year = dataOcorrencia;
-    		else
-    			year = dataOcorrencia.substring(dataOcorrencia.length()-4); 
-    	}
-    	return year;
+        String year = "";
+        if (this.dataOcorrencia != null) {
+            if (dataOcorrencia.length() == 4) {
+                year = dataOcorrencia;
+            } else {
+                year = dataOcorrencia.substring(dataOcorrencia.length() - 4);
+            }
+        }
+        return year;
     }
 
     public String getNumero() {
@@ -344,7 +351,5 @@ public class CriminalReport {
     public void setLon(String lon) {
         this.lon = lon;
     }
-    
-    
 
 }
