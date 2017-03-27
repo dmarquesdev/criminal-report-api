@@ -36,20 +36,24 @@ public class ReportRepository {
 
     @Value("${dataDir}")
     private File dataDir;
-
-    public CriminalReport loadCriminalReport(String idReport) throws FileNotFoundException {
+    
+    public CriminalReport loadCriminalReportWithoutSemantics(String idReport) throws FileNotFoundException {
         FileInputStream stream;
         try {
             stream = new FileInputStream(new File(dataDir, idReport + ".json"));
             InputStreamReader reader = null;
-            reader = new InputStreamReader(stream, "UTF-8");
-            CriminalReport bo = new Gson().fromJson(reader, CriminalReport.class);                        
-            bo.applySemantics();
-            return bo;
+            reader = new InputStreamReader(stream, "UTF-8");                     
+            return new Gson().fromJson(reader, CriminalReport.class);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("Error");
         }
 
+    }
+
+    public CriminalReport loadCriminalReport(String idReport) throws FileNotFoundException {
+        CriminalReport bo = loadCriminalReportWithoutSemantics(idReport);
+        bo.applySemantics();
+        return bo;
     }
     
     public List<CriminalReport> loadAllReports() throws FileNotFoundException {
@@ -270,5 +274,19 @@ public class ReportRepository {
     	System.out.println(listIdsBOs);
     }
     
+    // Points
+    public List<CriminalReport> loadAllPoints() throws FileNotFoundException {
+        List<CriminalReport> points = new ArrayList<>();
+        for (String idBO : list) {
+            CriminalReport fullCriminalReport = 
+                    loadCriminalReportWithoutSemantics(idBO);
+            CriminalReport point = new CriminalReport();
+            point.setIdBO(idBO);
+            point.setLat(fullCriminalReport.getLat());
+            point.setLon(fullCriminalReport.getLon());
+            points.add(point);            
+        }
+        return points;
+    }
     
 }

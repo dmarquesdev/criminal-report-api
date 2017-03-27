@@ -22,6 +22,8 @@ public class CriminalReport {
     protected String tipoBoletim;
     protected String dependencia;
     protected String local;
+    protected String lat;
+    protected String lon;
     protected String tipoLocal;
     protected String circunscricao;
     protected String dataOcorrencia;
@@ -326,5 +328,23 @@ public class CriminalReport {
     public void setNaturezas(List<CriminalReportType> naturezas) {
         this.naturezas = naturezas;
     }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+    
+    
 
 }

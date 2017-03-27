@@ -112,5 +112,9 @@ public class ReportService {
     	
     	return reportRepository.loadAllReportsFiltering(mapMethodValue);
     }
+    
+    public List<CriminalReport> loadAllPoints() throws FileNotFoundException {
+        return reportRepository.loadAllPoints();
+    }
 
 }
