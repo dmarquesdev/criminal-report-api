@@ -104,9 +104,9 @@ public class ReportRepository {
                 for (Method method : mapMethodValue.keySet()) {
                     
                     if (method.getDeclaringClass() == CriminalReport.class) {
-                        String methodReturn = (String) method.invoke(report);
-                        String filterValue = mapMethodValue.get(method);
-                        if (!filterValue.equalsIgnoreCase(methodReturn)) {
+                        String methodReturn = ((String) method.invoke(report)).toUpperCase();
+                        String filterValue = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";
+                        if (!methodReturn.matches(filterValue)) {
                             //If one filter fails, ignore the criminalReport and try to get the next report
                             continue bo;
                         }
@@ -114,9 +114,9 @@ public class ReportRepository {
                     } else if (method.getDeclaringClass() == Person.class) {
                         if (!report.getPartesEnvolvidas().isEmpty()) {
                             for (Person person : report.getPartesEnvolvidas()) {
-                                methodReturnp = (String) method.invoke(person);
-                                filterValuep = mapMethodValue.get(method);
-                                if (!filterValuep.equalsIgnoreCase(methodReturnp)) {
+                                methodReturnp = ((String) method.invoke(person)).toUpperCase();
+                                filterValuep = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";
+                                if (!methodReturnp.matches(filterValuep)) {
                                     //If no person has this attribute, ignore this report and try to get the next report
                                     continue bo;
                                 }
