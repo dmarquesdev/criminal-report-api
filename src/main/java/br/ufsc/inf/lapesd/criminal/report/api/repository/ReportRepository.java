@@ -104,8 +104,14 @@ public class ReportRepository {
                 for (Method method : mapMethodValue.keySet()) {
                     
                     if (method.getDeclaringClass() == CriminalReport.class) {
-                        String methodReturn = ((String) method.invoke(report)).toUpperCase();
+                        String methodReturn = ((String) method.invoke(report));
+                        if(methodReturn == null) {
+                            continue bo;
+                        }
+                        
+                        methodReturn = methodReturn.toUpperCase();
                         String filterValue = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";
+                        
                         if (!methodReturn.matches(filterValue)) {
                             //If one filter fails, ignore the criminalReport and try to get the next report
                             continue bo;
@@ -114,7 +120,12 @@ public class ReportRepository {
                     } else if (method.getDeclaringClass() == Person.class) {
                         if (!report.getPartesEnvolvidas().isEmpty()) {
                             for (Person person : report.getPartesEnvolvidas()) {
-                                methodReturnp = ((String) method.invoke(person)).toUpperCase();
+                                methodReturnp = ((String) method.invoke(person));
+                                if(methodReturnp == null) {
+                                    continue bo;
+                                }
+                                
+                                methodReturnp = methodReturnp.toUpperCase();
                                 filterValuep = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";
                                 if (!methodReturnp.matches(filterValuep)) {
                                     //If no person has this attribute, ignore this report and try to get the next report
@@ -132,6 +143,7 @@ public class ReportRepository {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error");
         }
         
