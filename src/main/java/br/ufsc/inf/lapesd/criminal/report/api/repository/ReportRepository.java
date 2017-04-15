@@ -291,6 +291,10 @@ public class ReportRepository {
             point.setIdBO(idBO);
             point.setLat(fullCriminalReport.getLat());
             point.setLon(fullCriminalReport.getLon());
+            point.setLocal(fullCriminalReport.getLocal());
+            point.setDataOcorrencia(fullCriminalReport.getDataOcorrencia());
+            point.setCategoria(fullCriminalReport.getCategoria());
+            point.setNome(fullCriminalReport.getNome());
             points.add(point);
         }
         return points;
@@ -300,7 +304,9 @@ public class ReportRepository {
         List<CriminalReport> fullFiltered = loadAllReportsFiltering(params, false);
         return fullFiltered
                 .stream()
-                .map(cr -> new CriminalReport(cr.getIdBO(), cr.getLat(), cr.getLon()))
+                .map(cr -> new CriminalReport(cr.getIdBO(), cr.getLat(), 
+                        cr.getLon(), cr.getLocal(), cr.getDataOcorrencia(), 
+                        cr.getCategoria(), cr.getPartesEnvolvidas().get(0).getNome()))
                 .collect(Collectors.toList());
     }
     

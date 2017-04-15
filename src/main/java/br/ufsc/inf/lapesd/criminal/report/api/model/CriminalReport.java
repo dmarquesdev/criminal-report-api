@@ -1,6 +1,5 @@
 package br.ufsc.inf.lapesd.criminal.report.api.model;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,13 +40,19 @@ public class CriminalReport {
     protected String anoBoPrincipal;
     protected String nomeDelegaciaBoPrincipal;
     protected String categoria;
+    protected String nome;
 
     protected String location;
 
-    public CriminalReport(String idBO, String lat, String lon) {
+    public CriminalReport(String idBO, String lat, String lon, String local, 
+            String dataOcorrencia, String categoria, String nome) {
         this.idBO = idBO;
         this.lat = lat;
         this.lon = lon;
+        this.categoria = categoria;
+        this.local = local;
+        this.dataOcorrencia = dataOcorrencia;
+        this.nome = nome;
     }
 
     public CriminalReport() {
@@ -128,16 +133,6 @@ public class CriminalReport {
         this.context.put("naturezas", "ssp:natureOfCrime");
         this.context.put("descricao", "ssp:description");
         this.context.put("especie", "ssp:type");
-
-        try {
-            if (getLocal() != null) {
-                setLocation("http://maps.google.com/maps/api/geocode/json?address="
-                        + java.net.URLEncoder.encode(getLocal(), "UTF-8"));
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Error");
-        }
-
     }
 
     public String getAno() {
@@ -350,6 +345,17 @@ public class CriminalReport {
 
     public void setLon(String lon) {
         this.lon = lon;
+    }
+
+    public String getNome() {
+        if (nome == null && !partesEnvolvidas.isEmpty()) {
+            nome = partesEnvolvidas.get(0).getNome();
+        }
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 }
