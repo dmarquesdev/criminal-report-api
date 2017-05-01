@@ -105,12 +105,12 @@ public class ReportRepository {
                     
                     if (method.getDeclaringClass() == CriminalReport.class) {
                         String methodReturn = ((String) method.invoke(report));
-                        if(methodReturn == null) {
+                        if (methodReturn == null) {
                             continue bo;
                         }
                         
                         methodReturn = methodReturn.toUpperCase();
-                        String filterValue = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";
+                        String filterValue = ".*" + mapMethodValue.get(method).toUpperCase() + ".*";                        
                         
                         if (!methodReturn.matches(filterValue)) {
                             //If one filter fails, ignore the criminalReport and try to get the next report
@@ -121,7 +121,7 @@ public class ReportRepository {
                         if (!report.getPartesEnvolvidas().isEmpty()) {
                             for (Person person : report.getPartesEnvolvidas()) {
                                 methodReturnp = ((String) method.invoke(person));
-                                if(methodReturnp == null) {
+                                if (methodReturnp == null) {
                                     continue bo;
                                 }
                                 
@@ -302,11 +302,12 @@ public class ReportRepository {
     
     public List<CriminalReport> loadAllPointsFiltering(Map<Method, String> params) throws FileNotFoundException {
         List<CriminalReport> fullFiltered = loadAllReportsFiltering(params, false);
+        
         return fullFiltered
                 .stream()
-                .map(cr -> new CriminalReport(cr.getIdBO(), cr.getLat(), 
-                        cr.getLon(), cr.getLocal(), cr.getDataOcorrencia(), 
-                        cr.getCategoria(), cr.getPartesEnvolvidas().get(0).getNome()))
+                .map(cr -> new CriminalReport(cr.getIdBO(), cr.getLat(),
+                cr.getLon(), cr.getLocal(), cr.getDataOcorrencia(),
+                cr.getCategoria(), (cr.getPartesEnvolvidas().isEmpty()) ? "Desconhecido" : cr.getPartesEnvolvidas().get(0).getNome()))
                 .collect(Collectors.toList());
     }
     

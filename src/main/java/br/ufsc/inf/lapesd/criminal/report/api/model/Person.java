@@ -27,7 +27,13 @@ public class Person {
     private String cutis;
     private String naturezasEnvolvidas;
     private String nodoId = UUID.randomUUID().toString();
-    
+
+    public Person() {
+    }
+
+    public Person(String nome) {
+        this.nome = nome;
+    }
     
     public List<String> getType() {
         return type;
